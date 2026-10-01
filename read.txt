@@ -5,9 +5,9 @@ clang++ -std=c++17 -g main.cpp -o main
 
 
 brew install gcc
-g++ -std=c++17 main.cpp -o main
-./main
 
+g++ -std=c++17 main.cpp gateway/edo.cpp  -o main        
+ ./main
 
 
 Ejemplo de tasks.json. desde VS estudio

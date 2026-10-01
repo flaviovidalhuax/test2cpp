@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "edo.h"
+#include "gateway/edo.h"
 
 
 int main() {
