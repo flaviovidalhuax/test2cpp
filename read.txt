@@ -1,0 +1,38 @@
+clang++ -std=c++17 -g main.cpp -o main 
+./main
+
+
+
+
+brew install gcc
+g++ -std=c++17 main.cpp -o main
+./main
+
+
+
+Ejemplo de tasks.json. desde VS estudio
+
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compilar C++ con clang++",
+      "type": "shell",
+      "command": "/usr/bin/clang++",
+      "args": [
+        "-std=c++17",
+        "-g",
+        "-Wall",
+        "-pthread",
+        "${workspaceFolder}/*.cpp",
+        "-o",
+        "${workspaceFolder}/main"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}
