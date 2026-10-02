@@ -16,7 +16,8 @@ EstadoECU evaluarEstado(const DatosVehiculo& datos){
         return EstadoECU::DEGRADED;
     }
 
-    return EstadoECU::OPERATIONAL; }
+    return EstadoECU::OPERATIONAL;
+ }
 
 std::string estadoAtexto(EstadoECU estado){
     switch(estado){
