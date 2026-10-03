@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "gateway/edo.h"
+#include "simulador/simulador.h"
 
 
 int main() {
