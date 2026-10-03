@@ -6,17 +6,17 @@
 
 
 ECU_Gateway:
-* validar señales: valido/invalido  JUAN
+* validar señales: valido/invalido
 * ecu gateway
 CONTROL:
 - edo
     
 DASHBOARD:
-
+ EDWIN
 SIMULADOR:
    - sensor 
-   * simular datos.  FLAVIO
-   * relaciones en en el dashboard. EDWIN
+   * simular datos.   FLAVIO
+   * relaciones en en el dashboard. 
 
 CONTROL:
 * ecu control
