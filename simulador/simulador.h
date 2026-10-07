@@ -1,6 +1,6 @@
 
 #pragma once
-#include "sensor.h"
+#include "../control/sensor.h"
 #include <string>
 
 DatosVehiculo generarDatosIniciales();
