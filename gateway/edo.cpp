@@ -1,8 +1,9 @@
 #include"edo.h"
-#include "sensor.h"
+#include "../control/sensor.h"
 //add chages
 EstadoECU evaluarEstado(const DatosVehiculo& datos){
- bool velocidadValida = validarVelocidad(datos.velocidad);
+
+    bool velocidadValida = validarVelocidad(datos.velocidad);
     bool rpmValida = validarRPM(datos.rpm);
     bool temperaturaValida = validarTemperatura(datos.temperatura);
     bool voltajeValido = validarVoltaje(datos.voltajeBateria);
@@ -16,4 +17,5 @@ EstadoECU evaluarEstado(const DatosVehiculo& datos){
         return EstadoECU::DEGRADED;
     }
 
-    return EstadoECU::OPERATIONAL; }
+    return EstadoECU::OPERATIONAL;
+}

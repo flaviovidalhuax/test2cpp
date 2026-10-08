@@ -38,30 +38,6 @@ std::string AgregarDecorador(TipoDecorador_Dashboard tipoImpresion, std::string 
     }
     return tipoDecorador;
 }
-std::string estadoAtexto(EstadoECU estado){
-    switch(estado){
-
-        case EstadoECU::INIT:
-            return "INIT";
-
-        case EstadoECU::SELF_TEST:
-            return "SELF_TEST";
-
-        case EstadoECU::OPERATIONAL:
-            return "OPERATIONAL";
-
-        case EstadoECU::DEGRADED:
-            return "DEGRADED";
-
-        case EstadoECU::SAFE_STATE:
-            return "SAFE_STATE";
-
-        case EstadoECU::SHUTDOWN:
-            return "SHUTDOWN";
-    }
-
-    return "DESCONOCIDO";
-}
 std::string CrearBarrar(double& valorSensor, double limiteInferior, double limiteSuperior, int anchoBarra = 20){
     valorSensor = valorSensor < limiteInferior ? limiteInferior : valorSensor;
     valorSensor = valorSensor > limiteSuperior ? limiteSuperior : valorSensor;

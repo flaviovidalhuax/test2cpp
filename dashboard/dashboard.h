@@ -2,6 +2,7 @@
 #include <string>
 #include <sensor.h>
 #include <edo.h>
+#include <control.h>
 
 struct GraficaValores_Sensores{
     std::string lineaSensorVelocidad;
@@ -27,7 +28,6 @@ enum class SignalMin { Vel = 0, RPM = 0, Temp = -40, Psi = 0, Volt = 9 };
 void LimpiarPantalla();
 std::string AgregarDecorador(TipoDecorador_Dashboard tipoImpresion, std::string textoImpresion);
 std::string FormatearDouble(double valor, int decimales);
-std::string estadoAtexto(EstadoECU estado);
 std::string CrearBarrar(double& valorSensor, double limiteInferior, double limiteSuperior, int anchoBarra);
 void ImprimirBarraConFormato(const std::string& contenidoGrafica );
 void mostrarValores_Dashboard(DatosVehiculo datosSensores);

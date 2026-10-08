@@ -6,6 +6,7 @@ clang++ -std=c++17 -g main.cpp -o main
 
 brew install gcc
 
+Mac
 g++ -std=c++17 main.cpp gateway/edo.cpp  -o main        
  ./main
 
