@@ -6,9 +6,13 @@
 
 int main() {
 
-      EstadoECU estado = EstadoECU::INIT;
-    
-    std::cout << "hello" << "\n";
-     std::cout << estadoAtexto(estado);
+     DatosVehiculo datos = generarDatosIniciales();
+
+    EstadoECU estado = EstadoECU::INIT;
+
+    EstadoECU estado_anterior = estado;
+
+
+      
     return 0;
 }
