@@ -1,6 +1,6 @@
-
 #include "ECUGateway.h"
 #include "../control/sensor.h"
+
 #include <chrono>
 #include <iostream>  // Se usa para impresión básica
 #include <iomanip>  // Se usa para comandos de escape o fix para formato
@@ -21,7 +21,7 @@ std::string estatusSenalAtextoG(Estatus est){
     }
     return "MISSING";
 }
-
+/*
 bool esNumero(const std::string &str){
     if (str.empty()) return false;
 
@@ -44,6 +44,8 @@ bool esNumero(const std::string &str){
     }
     return true;
 }
+*/
+
 std::string formatearDouble(double valor, int decimales)
 {
     std::ostringstream salida;
@@ -54,11 +56,13 @@ std::string formatearDouble(double valor, int decimales)
 en los requerimientos, la funcion evalua al momento de la lectura el tiempo si dura más de 10 
 segundos lo cuanta como MISSING y evalua si es numero y no pasa de los valores físicos posibles
 */
-void LeerDatos(Mensaje& msj, RangosParametros& rango){
-    std::array<parametro*, 6> senales = msj.signals(msj);
-    std::array<Rangos*, 6> ran = rango.limites(rango);
-    std::string entrada;
-    for (size_t i=0; i < senales.size(); i++) {
+void LeerDatos(Mensaje& msj, RangosParametros& rango, DatosVehiculo& datosVeiculo)
+{
+    std::array<parametro*, 5> senales = msj.signals(msj);
+    std::array<Rangos*, 5> ran = rango.limites(rango);
+    //std::string entrada;
+    for (int i=0; i < senales.size(); i++) 
+    {
         parametro* s = senales[i];
         const Rangos* r = ran[i];
         std::cout << "================   Rangos físicos posibles    ================" << std::endl;
@@ -68,29 +72,59 @@ void LeerDatos(Mensaje& msj, RangosParametros& rango){
                     << " y mayor a " << formatearDouble(r->maxWarning,2) << " " << s->unidades << std::endl;
         std::cout << "Críticos:     menor a " << formatearDouble(r->minCritical,2) << " " << s->unidades 
                   << " y mayor a " << formatearDouble(r->maxCritical,2) << " " << s->unidades << std::endl;
-        std::cout << "Recibiendo señal de " << s->nombre << " desde " << s->ECUorigen << ": ";
+        std::cout << "Recibiendo señal de " << s->nombre << " desde " << s->ECUorigen << ": Simulando:  ";
         auto inicioMedicion = std::chrono::steady_clock::now();
-        std::cin >> entrada;
+        //std::cin >> entrada;
         auto finMedicion=std::chrono::steady_clock::now();
         auto tiempoTranscurrido = std::chrono::duration_cast<std::chrono::seconds>(finMedicion-inicioMedicion);
-        if(esNumero(entrada)){
+        //if(esNumero(entrada)){
 
-            //Aqui se llama a la funcion que genera el valor simulado 
-            s->param = std::stof(entrada); 
+        //Aqui se llama a la funcion que genera el valor simulado 
+        if (s->nombre == "velocidad")
+        {        
+            s->param = static_cast<float>(datosVeiculo.velocidad);
+        }
 
+        if (s->nombre == "revolucionesPorMinuto")
+        {        
+            s->param = static_cast<float>(datosVeiculo.rpm);
+        }
+        if ( s->nombre == "temperatura")
+        {        
+            s->param = static_cast<float>(datosVeiculo.temperatura);
+        }
+        
+        if ( s->nombre == "bateria")
+        {        
+            s->param = static_cast<float>(datosVeiculo.voltajeBateria);
+        }
+        
+        if ( s->nombre == "presionDeAceite")
+        {        
+            s->param = static_cast<float>(datosVeiculo.presionAceite);
+        }
+        
+        //std::stof(entrada);
 
-            if (s->param < r->minCritical || s->param > r->maxCritical){
-                s->valido = false;
-            }else{
-                s->valido=true;
-            }
-        }else{
+        if (s->param < r->minCritical || s->param > r->maxCritical)
+        {
             s->valido = false;
         }
-        if (tiempoTranscurrido.count()>10){//10 segundos para ingresar valor sino se considera señal perdida
+        else
+        {
+            s->valido = true;
+        }
+        //}else{
+        //    s->valido = false;
+        //}
+        if (tiempoTranscurrido.count()>10)
+        {
+            //10 segundos para ingresar valor sino se considera señal perdida
             s->estatus=Estatus::MISSING;
             s->valido=false;
         }
+
+        std::cout <<  s->param  << " señal: " << estatusSenalAtexto(s->estatus)  << " valida: "  << s->valido << std::endl;
     }
 }
 

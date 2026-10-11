@@ -52,15 +52,13 @@ struct parametro{
 struct Mensaje{
 
     parametro Velocidad;
-    parametro Aceleracion;
     parametro RPM;
     parametro Temperatura;
     parametro VoltajeBateria;
     parametro PresionAceite;
-    std::array<parametro*, 6> signals(Mensaje& msj){
+    std::array<parametro*, 5> signals(Mensaje& msj){
         return {
             &msj.Velocidad,
-            &msj.Aceleracion,
             &msj.RPM,
             &msj.Temperatura,
             &msj.VoltajeBateria,
@@ -91,16 +89,14 @@ struct Rangos{
  struct RangosParametros{
 
     Rangos Velocidad;
-    Rangos Aceleracion;
     Rangos RPM;
     Rangos Temperatura;
     Rangos VoltajeBateria;
     Rangos PresionAceite;
 
-    std::array<Rangos*, 6> limites(RangosParametros& ran){
+    std::array<Rangos*, 5> limites(RangosParametros& ran){
         return {
             &ran.Velocidad,
-            &ran.Aceleracion,
             &ran.RPM,
             &ran.Temperatura,
             &ran.VoltajeBateria,
@@ -112,14 +108,12 @@ struct Rangos{
  struct acciones{
 
         std::string velocidad;
-        std::string aceleracion;
         std::string rpm;
         std::string temperatura;
         std::string voltajeBateria;
         std::string presionAceite;
-        void set(std::string v, std::string a, std::string r, std::string t, std::string bl, std::string bh){
+        void set(std::string v, std::string r, std::string t, std::string bl, std::string bh){
             velocidad = v;
-            aceleracion = a;
             rpm = r;
             temperatura = t;
             voltajeBateria = bl;
@@ -131,7 +125,7 @@ struct accionesControl{
         acciones limitacion;
         acciones critico;
         acciones causa;
-        std::array<acciones*, 6> deciciones(accionesControl& a){
+        std::array<acciones*, 5> deciciones(accionesControl& a){
         return {
             &a.limitacion,
             &a.critico,
