@@ -52,15 +52,13 @@ struct parametro{
 struct Mensaje{
 
     parametro Velocidad;
-    parametro Aceleracion;
     parametro RPM;
     parametro Temperatura;
     parametro VoltajeBateria;
     parametro PresionAceite;
-    std::array<parametro*, 6> signals(Mensaje& msj){
+    std::array<parametro*, 5> signals(Mensaje& msj){
         return {
             &msj.Velocidad,
-            &msj.Aceleracion,
             &msj.RPM,
             &msj.Temperatura,
             &msj.VoltajeBateria,
@@ -91,16 +89,14 @@ struct Rangos{
  struct RangosParametros{
 
     Rangos Velocidad;
-    Rangos Aceleracion;
     Rangos RPM;
     Rangos Temperatura;
     Rangos VoltajeBateria;
     Rangos PresionAceite;
 
-    std::array<Rangos*, 6> limites(RangosParametros& ran){
+    std::array<Rangos*, 5> limites(RangosParametros& ran){
         return {
             &ran.Velocidad,
-            &ran.Aceleracion,
             &ran.RPM,
             &ran.Temperatura,
             &ran.VoltajeBateria,
@@ -141,3 +137,10 @@ struct accionesControl{
 };
 
 const RangosParametros inicializarParametros(Mensaje& msj);
+
+enum class SignalMinO         { Vel = 0,   RPM = 0,    Temp = -20, Psi = 44, Volt = 11 };
+enum class SignalMaxO        { Vel = 240, RPM = 5000, Temp = 110, Psi = 54, Volt = 15 };
+enum class SignalMinWarning  { Vel = 0,   RPM = 500,  Temp = -30, Psi = 40, Volt = 11 };
+enum class SignalMaxWarning  { Vel = 255, RPM = 6000, Temp = 125, Psi = 56, Volt = 16 };
+enum class SignalMinCritical { Vel = -10, RPM = 0,    Temp = -40, Psi = 39, Volt = 10 };
+enum class SignalMaxCritical { Vel = 300, RPM = 7000, Temp = 145, Psi = 58, Volt = 17 };

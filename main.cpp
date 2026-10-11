@@ -1,30 +1,48 @@
 #include <iostream>
 #include <string>
 #include <dashboard.h>
+#include <logger.h>
+#include <thread>
 #include "gateway/edo.h"
 #include "simulador/simulador.h"
 #include "gateway/ECUGateway.h"
 #include "control/control.h"
 
 
-int main(){
+int main() {
 
-  EstadoECU estado = EstadoECU::INIT;
+    DatosVehiculo datos = generarDatosIniciales();
+    EstadoECU estado = EstadoECU::INIT;
 
-  std::cout << "hello" << "\n";
-  std::cout << estadoAtexto(estado);
+    EstadoECU estado_anterior = estado;
+    bool estadoActivo = true;
+    long long ciclosMaximos =  300;
+    long cicloActual = 0;
+    Mensaje msj;
+    RangosParametros rango;
+    //Inicalizamos los limites
+    rango=inicializarParametros(msj);
+    int siguienteEstado=0;
+    while (ciclosMaximos < cicloActual)
+    {
+       estadoActivo = false;
+        datos = actualizarSimulacion(datos);
+        TransferirDatos(datos, msj);
+        //ecugateway
+        ValidarDatos(msj,rango);
+        siguienteEstado = validarRangos(msj, rango);
 
-  Mensaje msj;
-  RangosParametros rango;
+        calcularNuevoEstado(estado, siguienteEstado);
 
-  rango=inicializarParametros(msj);
-  LeerDatos(msj, rango);
 
-  int siguienteEstado = validarRangos(msj, rango);
-  std::cout << "Arranque: " 
-            << 
-              estadoAtexto(calcularNuevoEstado(estado, msj, siguienteEstado)) 
-            << std::endl;
-  std::cout << "Estado actual: " <<  estadoAtexto(calcularNuevoEstado(estado, msj, siguienteEstado)) << std::endl;
-  return 0;
+        LeerDatos(msj, rango);
+
+
+        cicloActual++;
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
+    
+    std::cout << "Se ha terminado la ejecucion" << std::endl;
+    cerrarLogger();
+    return 0;
 }

@@ -54,10 +54,13 @@ std::string formatearDouble(double valor, int decimales)
 en los requerimientos, la funcion evalua al momento de la lectura el tiempo si dura más de 10 
 segundos lo cuanta como MISSING y evalua si es numero y no pasa de los valores físicos posibles
 */
-void LeerDatos(Mensaje& msj, RangosParametros& rango){
-    std::array<parametro*, 6> senales = msj.signals(msj);
-    std::array<Rangos*, 6> ran = rango.limites(rango);
-    std::string entrada;
+void LeerDatos(RangosParametros& rango, DatosVehiculo datos){
+
+}
+void LeerDatos(Mensaje& msj, RangosParametros& rango, DatosVehiculo datos){
+    std::array<parametro*, 5> senales = msj.signals(msj);
+    std::array<Rangos*, 5> ran = rango.limites(rango);
+    
     for (size_t i=0; i < senales.size(); i++) {
         parametro* s = senales[i];
         const Rangos* r = ran[i];
@@ -70,7 +73,7 @@ void LeerDatos(Mensaje& msj, RangosParametros& rango){
                   << " y mayor a " << formatearDouble(r->maxCritical,2) << " " << s->unidades << std::endl;
         std::cout << "Recibiendo señal de " << s->nombre << " desde " << s->ECUorigen << ": ";
         auto inicioMedicion = std::chrono::steady_clock::now();
-        std::cin >> entrada;
+        
         auto finMedicion=std::chrono::steady_clock::now();
         auto tiempoTranscurrido = std::chrono::duration_cast<std::chrono::seconds>(finMedicion-inicioMedicion);
         if(esNumero(entrada)){
@@ -93,8 +96,44 @@ void LeerDatos(Mensaje& msj, RangosParametros& rango){
         }
     }
 }
+void TransferirDatos(const DatosVehiculo& datos, Mensaje& msj)
+{
+    msj.Velocidad.param = datos.velocidad;
+    msj.RPM.param = static_cast<float>(datos.rpm);
+    msj.Temperatura.param = datos.temperatura;
+    msj.VoltajeBateria.param = datos.voltajeBateria;
+    msj.PresionAceite.param = datos.presionAceite;
+}
+bool ValidarDatos(Mensaje& msj, RangosParametros& rango)
+{
+    std::array<parametro*, 5> senales = msj.signals(msj);
+    std::array<Rangos*, 5> rangos = rango.limites(rango);
 
+    for (size_t i = 0; i < senales.size(); i++)
+    {
+        parametro* s = senales[i];
+        const Rangos* r = rangos[i];
 
+        if (s->param < r->minCritical ||
+            s->param > r->maxCritical)
+        {
+            s->valido = false;
+        }
+        else
+        {
+            s->valido = true;
+        }
+    }
+    bool todosValidos = true;
+        for (size_t t = 0; t < senales.size(); t++) {
+        parametro* param = senales[t];
+        if (!param->valido) {
+            todosValidos = false;
+            break;
+        }
+    }
+    return todosValidos;
+}
 /*
 void enviarPanel(Mensaje& msj){
     std::array<parametro*, 6> senales = msj.signals(msj);

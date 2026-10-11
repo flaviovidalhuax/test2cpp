@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <string>
 #include <sensor.h>
+#include <sensor.h>
 
 
 void LimpiarPantalla(){
@@ -66,21 +67,22 @@ void ImprimirBarraConFormato(const std::string& contenidoGrafica ){
 }
 RangosPermitidos RetornarLimitesSensores(std::string nombreSensor){
    RangosPermitidos rangos;
+   
    if (nombreSensor == "presionAceite") {
-        rangos.RangoInferior = static_cast<double>(SignalMin::Psi);
-        rangos.RangoSuperior = static_cast<double>(SignalMax::Psi);
+        rangos.RangoInferior = static_cast<double>(SignalMinCritical::Psi);
+        rangos.RangoSuperior = static_cast<double>(SignalMaxCritical::Psi);
     } else if (nombreSensor == "velocidad") {
-        rangos.RangoInferior = static_cast<double>(SignalMin::Vel);
-        rangos.RangoSuperior = static_cast<double>(SignalMax::Vel);
+        rangos.RangoInferior = static_cast<double>(SignalMinCritical::Vel);
+        rangos.RangoSuperior = static_cast<double>(SignalMaxCritical::Vel);
     } else if (nombreSensor == "rpm") {
-        rangos.RangoInferior = static_cast<double>(SignalMin::RPM);
-        rangos.RangoSuperior = static_cast<double>(SignalMax::RPM);
+        rangos.RangoInferior = static_cast<double>(SignalMinCritical::RPM);
+        rangos.RangoSuperior = static_cast<double>(SignalMaxCritical::RPM);
     } else if (nombreSensor == "temperatura") {
-        rangos.RangoInferior = static_cast<double>(SignalMin::Temp);
-        rangos.RangoSuperior = static_cast<double>(SignalMax::Temp);
+        rangos.RangoInferior = static_cast<double>(SignalMinCritical::Temp);
+        rangos.RangoSuperior = static_cast<double>(SignalMaxCritical::Temp);
     } else if (nombreSensor == "voltajeBateria") {
-        rangos.RangoInferior = static_cast<double>(SignalMin::Volt);
-        rangos.RangoSuperior = static_cast<double>(SignalMax::Volt);
+        rangos.RangoInferior = static_cast<double>(SignalMinCritical::Volt);
+        rangos.RangoSuperior = static_cast<double>(SignalMaxCritical::Volt);
     } 
     return rangos;
 }
@@ -141,4 +143,20 @@ void mostrarValores_Dashboard(DatosVehiculo datosSensores){
     std::cout << AgregarDecorador(TipoDecorador_Dashboard::ASTERISCOS) << AgregarDecorador(TipoDecorador_Dashboard::SALTO_LINEA);
     std::cout << AgregarDecorador(TipoDecorador_Dashboard::TEXTO_EN_MEDIO, "VALOR SENSORES") << AgregarDecorador(TipoDecorador_Dashboard::SALTO_LINEA);
     std::cout << AgregarDecorador(TipoDecorador_Dashboard::ASTERISCOS) << AgregarDecorador(TipoDecorador_Dashboard::SALTO_LINEA) << AgregarDecorador(TipoDecorador_Dashboard::SALTO_LINEA);
+}
+void MostrarLimitesRangos(Mensaje& msj, RangosParametros& rango){
+    std::array<parametro*, 5> senales = msj.signals(msj);
+    std::array<Rangos*, 5> ran = rango.limites(rango);
+    
+    for (size_t i=0; i < senales.size(); i++) {
+        parametro* s = senales[i];
+        const Rangos* r = ran[i];
+        std::cout << "================   Rangos físicos posibles    ================" << std::endl;
+        std::cout << "Normales:     " << FormatearDouble(r->minOperative,2) << " " <<  s->unidades 
+                    << " hasta " << FormatearDouble(r->maxOperative,2) << " " << s->unidades << std::endl;
+        std::cout << "Alerta:       menor a " << FormatearDouble(r->minWarning,2) << " " << s->unidades 
+                    << " y mayor a " << FormatearDouble(r->maxWarning,2) << " " << s->unidades << std::endl;
+        std::cout << "Críticos:     menor a " << FormatearDouble(r->minCritical,2) << " " << s->unidades 
+                  << " y mayor a " << FormatearDouble(r->maxCritical,2) << " " << s->unidades << std::endl;
+    }
 }

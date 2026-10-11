@@ -33,8 +33,8 @@ Evalua los rangos de las variables fisicas solo si el ECUgateway valido la seña
 La funcion, además, retorna una de las condiciones para el cambio de estado
 */
 int validarRangos(Mensaje& msj, RangosParametros& rango){
-    std::array<parametro*, 6> senales = msj.signals(msj);
-    std::array<Rangos*, 6> ran = rango.limites(rango);
+    std::array<parametro*, 5> senales = msj.signals(msj);
+    std::array<Rangos*, 5> ran = rango.limites(rango);
     uint8_t contador=0, contError=0;
     for (size_t i = 0; i < senales.size(); i++){
         parametro* p = senales[i];

@@ -21,9 +21,7 @@ struct RangosPermitidos{
     double RangoSuperior;
     double RangoInferior;
 };
-// Enums para limites de senales
-enum class SignalMax { Vel = 255, RPM = 8000, Temp = 150, Psi = 350, Volt = 16 };
-enum class SignalMin { Vel = 0, RPM = 0, Temp = -40, Psi = 0, Volt = 9 };
+
 
 void LimpiarPantalla();
 std::string AgregarDecorador(TipoDecorador_Dashboard tipoImpresion, std::string textoImpresion);
@@ -34,3 +32,4 @@ void mostrarValores_Dashboard(DatosVehiculo datosSensores);
 void MostrarGraficas_Dashboard(GraficaValores_Sensores valoresGrafica);
 GraficaValores_Sensores GenerarGraficas(DatosVehiculo datosSensores);
 RangosPermitidos RetornarLimitesSensores(std::string nombreSensor);
+void MostrarLimitesRangos(Mensaje& msj, RangosParametros& rango);

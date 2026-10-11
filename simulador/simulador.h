@@ -10,3 +10,5 @@ DatosVehiculo acelerar(const DatosVehiculo& datosActuales);
 DatosVehiculo frenos(const DatosVehiculo& datosActuales);
 
 DatosVehiculo sistemError(const DatosVehiculo& datosActuales);
+
+DatosVehiculo actualizarSimulacion(const DatosVehiculo& datosActuales);
