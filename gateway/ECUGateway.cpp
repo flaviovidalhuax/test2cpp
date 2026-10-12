@@ -7,20 +7,7 @@
 #include <string>  // Se usa para manejar strings
 #include <sstream>  // Nos permite hacer operaciones complejas con string
 #include <cstdlib>  // Nos permite hacer operaciones referentes al sistema y su terminal
-
-std::string estatusSenalAtextoG(Estatus est){
-    switch (est){
-        case Estatus::OK:
-            return "OK";
-        case Estatus::WARNING:
-            return "WARNING";
-        case Estatus::ERROR:
-            return "ERROR";
-        case Estatus::MISSING:
-            return "MISSING";    
-    }
-    return "MISSING";
-}
+#include <cctype>
 
 bool esNumero(const std::string &str){
     if (str.empty()) return false;
@@ -49,52 +36,6 @@ std::string formatearDouble(double valor, int decimales)
     std::ostringstream salida;
     salida << std::fixed << std::setprecision(decimales) << valor;
     return salida.str();
-}
-/* Realiza la lectura de los datos y los almacena en un struct empleando los rangos definidos 
-en los requerimientos, la funcion evalua al momento de la lectura el tiempo si dura más de 10 
-segundos lo cuanta como MISSING y evalua si es numero y no pasa de los valores físicos posibles
-*/
-void LeerDatos(RangosParametros& rango, DatosVehiculo datos){
-
-}
-void LeerDatos(Mensaje& msj, RangosParametros& rango, DatosVehiculo datos){
-    std::array<parametro*, 5> senales = msj.signals(msj);
-    std::array<Rangos*, 5> ran = rango.limites(rango);
-    
-    for (size_t i=0; i < senales.size(); i++) {
-        parametro* s = senales[i];
-        const Rangos* r = ran[i];
-        std::cout << "================   Rangos físicos posibles    ================" << std::endl;
-        std::cout << "Normales:     " << formatearDouble(r->minOperative,2) << " " <<  s->unidades 
-                    << " hasta " << formatearDouble(r->maxOperative,2) << " " << s->unidades << std::endl;
-        std::cout << "Alerta:       menor a " << formatearDouble(r->minWarning,2) << " " << s->unidades 
-                    << " y mayor a " << formatearDouble(r->maxWarning,2) << " " << s->unidades << std::endl;
-        std::cout << "Críticos:     menor a " << formatearDouble(r->minCritical,2) << " " << s->unidades 
-                  << " y mayor a " << formatearDouble(r->maxCritical,2) << " " << s->unidades << std::endl;
-        std::cout << "Recibiendo señal de " << s->nombre << " desde " << s->ECUorigen << ": ";
-        auto inicioMedicion = std::chrono::steady_clock::now();
-        
-        auto finMedicion=std::chrono::steady_clock::now();
-        auto tiempoTranscurrido = std::chrono::duration_cast<std::chrono::seconds>(finMedicion-inicioMedicion);
-        if(esNumero(entrada)){
-
-            //Aqui se llama a la funcion que genera el valor simulado 
-            s->param = std::stof(entrada); 
-
-
-            if (s->param < r->minCritical || s->param > r->maxCritical){
-                s->valido = false;
-            }else{
-                s->valido=true;
-            }
-        }else{
-            s->valido = false;
-        }
-        if (tiempoTranscurrido.count()>10){//10 segundos para ingresar valor sino se considera señal perdida
-            s->estatus=Estatus::MISSING;
-            s->valido=false;
-        }
-    }
 }
 void TransferirDatos(const DatosVehiculo& datos, Mensaje& msj)
 {

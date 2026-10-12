@@ -100,8 +100,7 @@ DatosVehiculo actualizarSimulacion(const DatosVehiculo& datosActuales){
 
     datosNuevos.voltajeBateria = 13.8 + generarNumerosAletorio(-0.15, 0.15);
 
-    datosNuevos.presionAceite = 1.5 + datosNuevos.rpm/2000.0 + generarNumerosAletorio(-0.15, 0.15);
+    datosNuevos.presionAceite = 42.0 + datosNuevos.rpm / 500.0 + generarNumerosAletorio(-1.0, 1.0);
 
     return datosNuevos;
 }
-

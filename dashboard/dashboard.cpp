@@ -3,7 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <sensor.h>
+#include <sstream>
 #include <sensor.h>
 
 
@@ -50,12 +50,12 @@ std::string CrearBarrar(double& valorSensor, double limiteInferior, double limit
     
     std::string barraImprimir;
     for(int i = 0; i < redondearUpside; i++){
-        barraImprimir += "█";
+        barraImprimir += "#";
     }
     for(int i = redondearUpside; i < anchoBarra; i++){
-        barraImprimir += "░";
+        barraImprimir += "-";
     }
-    return barraImprimir;
+    return "[" + barraImprimir + "]";
 }
 void ImprimirBarraConFormato(const std::string& contenidoGrafica ){
     const int Ancho_interno = 60;
@@ -89,6 +89,7 @@ RangosPermitidos RetornarLimitesSensores(std::string nombreSensor){
 GraficaValores_Sensores GenerarGraficas(DatosVehiculo datosSensores){
     GraficaValores_Sensores representacionGraficaSensores;
     RangosPermitidos rangosSensores;
+    double rpm = datosSensores.rpm;
     
     rangosSensores = RetornarLimitesSensores("presionAceite");
     representacionGraficaSensores.lineaSensorPresionAceite = 
@@ -96,19 +97,19 @@ GraficaValores_Sensores GenerarGraficas(DatosVehiculo datosSensores){
     
     rangosSensores = RetornarLimitesSensores("rpm");
     representacionGraficaSensores.lineaSensorRpm = 
-    "REVOLUCIONES POR MIN:   "  +CrearBarrar(datosSensores.presionAceite, rangosSensores.RangoInferior, rangosSensores.RangoSuperior);
+    "REVOLUCIONES POR MIN:   "  +CrearBarrar(rpm, rangosSensores.RangoInferior, rangosSensores.RangoSuperior);
     
     rangosSensores = RetornarLimitesSensores("temperatura");
     representacionGraficaSensores.lineaSensorTemperatura = 
-    "TEMPERATURA:            "  +CrearBarrar(datosSensores.presionAceite, rangosSensores.RangoInferior, rangosSensores.RangoSuperior);
+    "TEMPERATURA:            "  +CrearBarrar(datosSensores.temperatura, rangosSensores.RangoInferior, rangosSensores.RangoSuperior);
     
     rangosSensores = RetornarLimitesSensores("voltajeBateria");
     representacionGraficaSensores.lineaSensorVoltajeBateria =
-    "VOLTAJE:                "  + CrearBarrar(datosSensores.presionAceite, rangosSensores.RangoInferior, rangosSensores.RangoSuperior);
+    "VOLTAJE:                "  + CrearBarrar(datosSensores.voltajeBateria, rangosSensores.RangoInferior, rangosSensores.RangoSuperior);
     
     rangosSensores = RetornarLimitesSensores("velocidad");
     representacionGraficaSensores.lineaSensorVelocidad = 
-    "VELOCIDAD:              "  + CrearBarrar(datosSensores.presionAceite, rangosSensores.RangoInferior, rangosSensores.RangoSuperior);
+    "VELOCIDAD:              "  + CrearBarrar(datosSensores.velocidad, rangosSensores.RangoInferior, rangosSensores.RangoSuperior);
 
     return representacionGraficaSensores;
 }

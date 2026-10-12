@@ -7,7 +7,5 @@ std::string formatearDouble(double valor, int decimales);
 
 bool esNumero(const std::string &str);
 
-void LeerDatos(Mensaje& msj, RangosParametros& rango);
-
 void TransferirDatos(const DatosVehiculo& datos, Mensaje& msj);
 bool ValidarDatos(Mensaje& msj, RangosParametros& rango);

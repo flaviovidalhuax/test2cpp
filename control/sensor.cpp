@@ -20,7 +20,7 @@ bool validarVoltaje(double voltaje){
 
 
 bool validarPresion(double presion){
-    return presion >= 0.5 && presion <= 5.0;
+    return presion >= 39.0 && presion <= 58.0;
 }
 //Inicializa las señales y configura los rangos
 const RangosParametros inicializarParametros(Mensaje& msj){
