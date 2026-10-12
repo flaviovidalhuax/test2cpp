@@ -67,9 +67,9 @@ Ejecutar el exe:\
 ./main.exe
 
 
-El iniciar el sistema:\
+El iniciar el sistema:
 
-- Se instancian las variables escenciales para el funcionamiento.
+- Se instancian las variables DatosVeiculo y Parametro para el funcionamiento general.
 - Se actualizan los valores para cada una de las señales.
 - Se envian a la ECUGateway para clasificar los valores y sus estatus por señal.
 - Despues son enviadas a la ECUControl para determinar el cambio de estado.
