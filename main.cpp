@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
-#include <dashboard.h>
-#include <logger.h>
+#//include <dashboard.h>
+//#include <logger.h>
 #include <thread>
 #include <chrono>
+#include "dashboard/dashboard.h"
+#include "logger/logger.h"
 #include "gateway/edo.h"
 #include "simulador/simulador.h"
 #include "gateway/ECUGateway.h"

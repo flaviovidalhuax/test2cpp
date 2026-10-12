@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
-#include <sensor.h>
-#include <edo.h>
-#include <control.h>
+#include "../control/sensor.h"
+#include "../gateway/edo.h"
+#include "../control/control.h"
 
 struct GraficaValores_Sensores{
     std::string lineaSensorVelocidad;

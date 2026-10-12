@@ -1,10 +1,10 @@
-#include <dashboard.h>
+#include "dashboard.h"
 #include <cstdlib>
 #include <iostream>
 #include <iomanip>
 #include <string>
 #include <sstream>
-#include <sensor.h>
+#include "../control/sensor.h"
 
 
 void LimpiarPantalla(){

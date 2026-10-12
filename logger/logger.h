@@ -1,6 +1,6 @@
 #pragma once
-#include <control.h>
-#include <sensor.h>
+#include "../control/control.h"
+#include "../control/sensor.h"
 
 enum class EventoLogger{
     LOG,
