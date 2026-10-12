@@ -13,5 +13,3 @@ enum class EstadoECU{
 
 };
 EstadoECU evaluarEstado();
-
-std::string estadoAtexto(EstadoECU estado);
